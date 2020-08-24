@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql:///schooltrain
+    username: root
+    password:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm
+    time-zone: GMT+8
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+server:
+  port: 8088

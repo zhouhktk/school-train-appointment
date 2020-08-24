@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.dao.DepartmentDao">
+  <resultMap id="departMap" type="com.st.entity.Department">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="depart_name" jdbcType="VARCHAR" property="departName" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="base_column_list">
+    id, `number`, depart_name, `desc`, update_time, create_time, status
+  </sql>
+  <select id="selectByNumber" parameterType="string" resultMap="departMap">
+    select 
+    <include refid="base_column_list" />
+    from department
+    where `number` = #{number,jdbcType=VARCHAR}
+  </select>
+</mapper>

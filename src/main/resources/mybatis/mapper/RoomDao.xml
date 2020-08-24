@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.dao.RoomDao">
+  <resultMap id="roomMap" type="com.st.entity.Room">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="staff_number" jdbcType="VARCHAR" property="staffNumber" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="rest_times" jdbcType="INTEGER" property="restTimes" />
+    <result column="hot" jdbcType="INTEGER" property="hot" />
+  </resultMap>
+  <sql id="base_column_list">
+    id, `number`, staff_number, image, rest_times, hot, status
+  </sql>
+  <select id="selectByNumber" parameterType="string" resultMap="roomMap">
+    select
+    <include refid="base_column_list" />
+    from room
+    where `number` = #{number,jdbcType=VARCHAR}
+  </select>
+  <update id="update" parameterType="com.st.entity.Room">
+    update room
+    <set>
+      <if test="staffNumber != null">
+        staff_number = #{staffNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="restTimes != null">
+        rest_times = #{restTimes,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null">
+        hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where `number` = #{number,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getAll" resultMap="roomMap">
+    select
+    <include refid="base_column_list" />
+    from room
+    where status=0 order by `number`
+  </select>
+  <select id="getHotList" resultMap="roomMap">
+    select
+    <include refid="base_column_list" />
+    from room
+    where status=0 order by hot desc limit 0, #{num}
+  </select>
+</mapper>

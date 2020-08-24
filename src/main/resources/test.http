@@ -1,0 +1,62 @@
+POST http://localhost:8088/staff/changeinfo
+Content-Type: application/json
+
+{
+  "number": "500000",
+  "status": 0
+}
+
+###
+GET http://localhost:8088/staff/getinfo?number=500000
+Accept: application/json
+
+###
+GET http://localhost:8088/app/cancelapp?appNumber=1598001124055100000001
+Accept: application/json
+
+###
+GET http://localhost:8088/app/getapplist?staffNumber=100000&page=2&limit=2
+Accept: application/json
+
+###
+POST http://localhost:8088/app/insert
+Content-Type: application/json
+
+{
+  "roomNumber": "001",
+  "staffNumber": "200000",
+  "endTime": "2020-08-24 16:30",
+  "startTime": "2020-08-24 15:50"
+}
+
+###
+GET http://localhost:8088/room/hotlist?num=4
+Accept: application/json
+
+###
+GET http://localhost:8088/room/getall
+Accept: application/json
+
+###
+GET http://localhost:8088/app/getlistbyroom?roomNumber=001
+Accept: application/json
+
+###
+POST http://localhost:8088/staff/changepsd
+Content-Type: application/json
+
+{
+  "number": "500000",
+  "password": "123"
+}
+
+###
+POST http://localhost:8088/staff/login
+Content-Type: application/json
+
+{
+  "number": "100000",
+  "password": "123"
+}
+
+###

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.dao.AppointmentDao">
+  <resultMap id="appointMap" type="com.st.entity.Appointment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="staff_number" jdbcType="VARCHAR" property="staffNumber" />
+    <result column="room_number" jdbcType="VARCHAR" property="roomNumber" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="base_column_list">
+    id, staff_number, room_number, `number`, `status`, `desc`, start_time, end_time,
+    create_time, update_time
+  </sql>
+  <delete id="deleteByNumber" parameterType="string">
+    delete from appointment
+    where `number` = #{number,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.st.entity.Appointment" useGeneratedKeys="true">
+    insert into appointment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="staffNumber != null">
+        staff_number,
+      </if>
+      <if test="roomNumber != null">
+        room_number,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="staffNumber != null">
+        #{staffNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNumber != null">
+        #{roomNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="getListByRoomNumber" resultMap="appointMap">
+    select
+    <include refid="base_column_list" />
+    from appointment where room_number = #{roomNumber,jdbcType=VARCHAR}
+    and status in (0, 1)
+    order by end_time desc
+  </select>
+
+  <select id="getAppListByStaffNumberPQ" resultMap="appointMap">
+    select
+    <include refid="base_column_list" />
+    from appointment
+    where staff_number=#{staffNumber,jdbcType=VARCHAR}
+    order by create_time desc limit #{page}, #{nums}
+  </select>
+  <select id="getAllAppNumsByStaffNumber" resultType="int">
+    select count(id)
+    from appointment
+    where staff_number=#{staffNumber,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByNumber" resultMap="appointMap">
+    select
+    <include refid="base_column_list" />
+    from appointment
+    where `number`=#{number,jdbcType=VARCHAR}
+  </select>
+
+
+</mapper>
